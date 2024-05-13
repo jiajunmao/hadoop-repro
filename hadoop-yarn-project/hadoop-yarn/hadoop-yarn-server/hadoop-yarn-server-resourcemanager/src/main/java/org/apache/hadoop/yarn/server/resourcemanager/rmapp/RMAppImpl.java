@@ -175,7 +175,7 @@ public class RMAppImpl implements RMApp, Recoverable {
   private EventHandler handler;
   private static final AppFinishedTransition FINISHED_TRANSITION =
       new AppFinishedTransition();
-  private Set<NodeId> ranNodes = new ConcurrentSkipListSet<NodeId>();
+  private Set<NodeId> ranNodes = new CustomConcurrentSkipListSet<NodeId>();
 
   private final RMAppLogAggregation logAggregation;
   private Map<ApplicationTimeoutType, Long> applicationTimeouts =
@@ -1498,7 +1498,16 @@ public class RMAppImpl implements RMApp, Recoverable {
         app.handler.handle(
                 new RMNodeCleanAppEvent(nodeId, app.applicationId));
       }
-      app.ranNodes.clear();
+
+      // Easier to reproduce
+      if (System.getenv("APP_RANNODES_CLEAR").equals("true")) {
+        LOG.info("Clearing app ran nodes");
+        app.ranNodes.clear();
+      } else {
+        LOG.info("NOT clearing app ran nodes");
+      }
+      
+      
       // Recovered apps that are completed were not added to scheduler, so no
       // need to remove them from scheduler.
       if (app.recoveredFinalState == null) {
