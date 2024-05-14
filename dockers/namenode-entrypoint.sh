@@ -1,4 +1,4 @@
-service sshd restart
+service ssh restart
 hdfs namenode -format -force
 hdfs --daemon start namenode
 hdfs --daemon start secondarynamenode
