@@ -1501,12 +1501,12 @@ public class RMAppImpl implements RMApp, Recoverable {
 
       // Easier to reproduce
       if (System.getenv("APP_RANNODES_CLEAR").equals("true")) {
-        LOG.info("Clearing app ran nodes");
+        LOG.warn("Clearing app ran nodes with {} entries and size {}", app.ranNodes.size(), app.ranNodes);
         app.ranNodes.clear();
+        LOG.warn("Now with {} entries", app.ranNodes.size());
       } else {
-        LOG.info("NOT clearing app ran nodes");
+        LOG.info("NOT clearing app ran nodes with {} entries", app.ranNodes.size());
       }
-      
       
       // Recovered apps that are completed were not added to scheduler, so no
       // need to remove them from scheduler.

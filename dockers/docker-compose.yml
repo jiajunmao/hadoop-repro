@@ -6,7 +6,8 @@ services:
     image: hdfs-repro:latest
     restart: always
     environment:
-      HDFS_DATANODE_USER: root
+      - HDFS_DATANODE_USER=root
+      - APP_RANNODES_CLEAR=true
     ports:
       - "9870:9870"
       - "8088:8088"
@@ -25,6 +26,8 @@ services:
     image: hdfs-repro:latest
     privileged: true
     restart: always
+    environment:
+      - APP_RANNODES_CLEAR=true
     volumes:
       - ./core-site.xml:/opt/hadoop-3.3.0/etc/hadoop/core-site.xml
       - ./hdfs-site.xml:/opt/hadoop-3.3.0/etc/hadoop/hdfs-site.xml
